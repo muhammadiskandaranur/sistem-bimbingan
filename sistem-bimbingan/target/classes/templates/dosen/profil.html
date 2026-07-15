@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Dosen</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar-dosen}"></div>
+
+<div class="container"
+     style="margin-left:270px;padding-top:90px;max-width:1100px;">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">
+                        <i class="bi bi-person-circle text-primary"></i>
+                        Edit Profil
+                    </h3>
+
+                    <div th:if="${success}"
+                         class="alert alert-success"
+                         th:text="${success}">
+                    </div>
+
+                    <form th:action="@{/dosen/profil/edit}"
+                          method="post">
+
+                        <div class="mb-3">
+                            <label>Nama Lengkap</label>
+                            <input type="text"
+                                   name="nama"
+                                   class="form-control"
+                                   th:value="${dosen.user.nama}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email"
+                                   name="email"
+                                   class="form-control"
+                                   th:value="${dosen.user.email}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>No HP</label>
+                            <input type="text"
+                                   name="noHp"
+                                   class="form-control"
+                                   th:value="${dosen.user.noHp}">
+                        </div>
+
+                        <button class="btn btn-primary">
+                            <i class="bi bi-save"></i>
+                            Simpan Perubahan
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-4">
+
+                    <h3 class="mb-4">
+                        <i class="bi bi-key text-primary"></i>
+                        Ubah Password
+                    </h3>
+
+                    <div th:if="${error}"
+                         class="alert alert-danger"
+                         th:text="${error}">
+                    </div>
+
+                    <form th:action="@{/dosen/profil/ubah-password}"
+                          method="post">
+
+                        <div class="mb-3">
+                            <label>Password Lama</label>
+                            <input type="password"
+                                   name="passwordLama"
+                                   class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Password Baru</label>
+                            <input type="password"
+                                   name="passwordBaru"
+                                   class="form-control">
+                        </div>
+
+                        <button class="btn btn-outline-primary">
+                            Ubah Password
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow border-0 mt-4">
+
+                <div class="card-body">
+
+                    <h4 class="text-primary mb-3">
+                        Informasi Akun
+                    </h4>
+
+                    <p>
+                        <strong>Nama :</strong>
+                        <span th:text="${dosen.user.nama}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Email :</strong>
+                        <span th:text="${dosen.user.email}"></span>
+                    </p>
+
+                    <p>
+                        <strong>No HP :</strong>
+                        <span th:text="${dosen.user.noHp}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Role :</strong>
+                        DOSEN
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

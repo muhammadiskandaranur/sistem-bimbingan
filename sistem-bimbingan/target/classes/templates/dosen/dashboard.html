@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Dosen - SI Jadwal Bimbingan</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar-dosen}"></div>
+
+<div class="main-content p-4">
+
+
+    <h3 class="fw-bold mb-1">Dashboard Dosen</h3>
+    <p class="text-muted mb-4">
+        Selamat datang,
+        <span th:text="${session.nama}">Dosen</span> 👋
+    </p>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-6">
+            <div class="card card-stat bg-blue-grad p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 opacity-75">
+                            Jumlah Pengajuan Baru
+                        </h6>
+
+                        <h2 class="fw-bold mb-0"
+                            th:text="${jumlahPengajuanBaru}">
+                            0
+                        </h2>
+                    </div>
+
+                    <i class="bi bi-inbox-fill"
+                       style="font-size:2.5rem;opacity:0.6;">
+                    </i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-stat p-4"
+                 style="background:linear-gradient(135deg,#6c757d,#adb5bd);">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <h6 class="mb-1 opacity-75">
+                            Jadwal Aktif
+                        </h6>
+
+                        <h2 class="fw-bold mb-0"
+                            th:text="${jumlahJadwalHariIni}">
+                            0
+                        </h2>
+                    </div>
+
+                    <i class="bi bi-calendar-day"
+                       style="font-size:2.5rem;opacity:0.6;">
+                    </i>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card p-4">
+
+        <h5 class="fw-bold mb-3">
+            <i class="bi bi-calendar-day text-primary me-2"></i>
+            Jadwal Bimbingan Aktif
+        </h5>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+                <tr>
+                    <th>Mahasiswa</th>
+                    <th>NIM</th>
+                    <th>Program Studi</th>
+                    <th>Tanggal</th>
+                    <th>Jam</th>
+                    <th>Tempat</th>
+                    <th>Status</th>
+                    <th width="150">Aksi</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:if="${#lists.isEmpty(jadwalHariIni)}">
+                    <td colspan="8"
+                        class="text-center text-muted py-4">
+                        Tidak ada jadwal bimbingan aktif.
+                    </td>
+                </tr>
+
+                <tr th:each="j : ${jadwalHariIni}">
+
+                    <td th:text="${j.mahasiswa.user.nama}">
+                        Nama Mahasiswa
+                    </td>
+
+                    <td th:text="${j.mahasiswa.nim}">
+                        220001
+                    </td>
+                    <td th:text="${j.mahasiswa.prodi}">
+                        Teknik Informatika
+                    </td>
+                    <td th:text="${#temporals.format(j.tanggal,'dd-MM-yyyy')}">
+                        23-06-2026
+                    </td>
+
+                    <td th:text="${j.jamMulai} + ' - ' + ${j.jamSelesai}">
+                        08:00 - 09:00
+                    </td>
+
+                    <td th:text="${j.tempat}">
+                        Ruang Dosen
+                    </td>
+
+                    <td>
+                    <span class="badge bg-primary"
+                          th:text="${j.status}">
+                        TERJADWAL
+                    </span>
+                    </td>
+
+                    <td>
+
+                        <div th:if="${j.status == 'TERJADWAL'}"
+                             class="d-flex gap-2">
+
+                            <!-- Tombol Selesai -->
+                            <form th:action="@{/dosen/jadwal/{id}/selesai(id=${j.id})}"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="btn btn-success btn-sm">
+                                    Selesai
+
+                                </button>
+
+                            </form>
+
+                            <!-- Tombol Batalkan -->
+                            <form th:action="@{/dosen/jadwal/{id}/batalkan(id=${j.id})}"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+                                    Batalkan
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                        <span th:if="${j.status == 'SELESAI'}"
+                              class="badge bg-success">
+        Sudah Selesai
+    </span>
+
+                        <span th:if="${j.status == 'DIBATALKAN'}"
+                              class="badge bg-danger">
+        Dibatalkan
+    </span>
+
+                    </td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Jadwal - SI Jadwal Bimbingan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar-dosen}"></div>
+
+<div class="main-content p-4">
+    <h3 class="fw-bold mb-1">Tambah Jadwal Bimbingan</h3>
+    <p class="text-muted mb-4">Buat jadwal bimbingan untuk pengajuan yang telah diterima</p>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-calendar-plus text-primary me-2"></i>Form Jadwal Bimbingan</h5>
+
+                <div th:if="${#lists.isEmpty(daftarPengajuanDiterima)}" class="alert alert-warning">
+                    Belum ada pengajuan yang berstatus <strong>DITERIMA</strong>. Terima pengajuan terlebih dahulu pada menu Pengajuan Masuk.
+                </div>
+
+                <form th:if="${!#lists.isEmpty(daftarPengajuanDiterima)}" th:action="@{/jadwal/tambah}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Pilih Pengajuan</label>
+                        <select class="form-select" name="pengajuanId" required>
+                            <option value="">Pilih Pengajuan</option>
+                            <option th:each="p : ${daftarPengajuanDiterima}"
+                                    th:value="${p.id}"
+                                    th:text="${p.mahasiswa.user.nama} + ' - ' + ${p.judul}">
+                                Mahasiswa - Judul
+                            </option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" name="tanggal" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Jam Mulai</label>
+                            <input type="time" class="form-control" name="jamMulai" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Jam Selesai</label>
+                            <input type="time" class="form-control" name="jamSelesai" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tempat / Ruangan</label>
+                        <input type="text" class="form-control" name="tempat" placeholder="Ruang" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Catatan (opsional)</label>
+                        <textarea class="form-control" name="catatan" rows="3" placeholder="Catatan"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">
+                        <i class="bi bi-calendar-check me-1"></i> Simpan Jadwal
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card p-4 bg-light-blue">
+                <h6 class="fw-bold text-primary"><i class="bi bi-info-circle me-2"></i>Petunjuk</h6>
+                <ul class="mb-0 ps-3">
+                    <li>Hanya pengajuan dengan status <strong>DITERIMA</strong> yang dapat dijadwalkan.</li>
+                    <li>Pastikan tanggal dan jam yang dipilih tidak bertabrakan.</li>
+                    <li>Jadwal yang dibuat akan otomatis muncul di halaman mahasiswa.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
