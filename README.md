@@ -195,27 +195,6 @@ Aplikasi dapat diakses melalui:
    text
 http://localhost:8080
 
-
-
-
-## 📸 Tampilan Sistem
-
-Tambahkan screenshot aplikasi pada bagian ini setelah proyek selesai.
-
-### Login
-
-![Login](images/login.png)
-
-### Dashboard Mahasiswa
-
-![Dashboard Mahasiswa](images/dashboard-mahasiswa.png)
-
-### Dashboard Dosen
-
-![Dashboard Dosen](images/dashboard-dosen.png)
-
-
-
 ## 👨‍💻 Pengembang
 
 **Muhamad Iskandar Annur**
